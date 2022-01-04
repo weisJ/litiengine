@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - build_actions_test
 
 jobs:
   release:
