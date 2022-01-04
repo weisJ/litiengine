@@ -2,19 +2,51 @@ name: Create release
 
 on:
   push:
+    # We don't want to publish for snapshot builds
     tags-ignore:
       - '*SNAPSHOT*'
 
 jobs:
   create_release:
-    name: Release
+    name: Create release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Extract version number
+        id: tag_version
+        shell: bash
+        run: |
+          echo ::set-output name=release_version::$(echo ${{github.ref_name}} | sed "s/^.*v\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)-.*$/\1/")
+      - name: Add release message
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            This version of LITIENGINE is available through [Maven Central](https://search.maven.org/artifact/de.gurkenlabs/litiengine):
+            ### Gradle (Groovy)
+            ````groovy
+            implementation 'de.gurkenlabs:litiengine:${{ steps.tag_version.outputs.release_version }}'
+            ````
+            ### Gradle (Kotlin)
+            ````kotlin
+            implementation("de.gurkenlabs:litiengine:${{ steps.tag_version.outputs.release_version }}")
+            ````
+            ### Maven
+            ````xml
+            <dependency>
+              <groupId>de.gurkenlabs</groupId>
+              <artifactId>litiengine</artifactId>
+              <version>${{ steps.tag_version.outputs.release_version }}</version>
+            </dependency>
+            ````
+  create_release_assets:
+    name: Create release assets
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
-      packages: read
     steps:
       - uses: actions/checkout@v2
         with:
