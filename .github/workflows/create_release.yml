@@ -23,23 +23,28 @@ jobs:
         with:
           name: v${{ steps.tag_version.outputs.release_version }}
           body: |
-            This version of LITIENGINE is available through [Maven Central](https://search.maven.org/artifact/de.gurkenlabs/litiengine):
-            ### Gradle (Groovy)
-            ````groovy
-            implementation 'de.gurkenlabs:litiengine:${{ steps.tag_version.outputs.release_version }}'
-            ````
-            ### Gradle (Kotlin)
-            ````kotlin
-            implementation("de.gurkenlabs:litiengine:${{ steps.tag_version.outputs.release_version }}")
-            ````
-            ### Maven
-            ````xml
-            <dependency>
-              <groupId>de.gurkenlabs</groupId>
-              <artifactId>litiengine</artifactId>
-              <version>${{ steps.tag_version.outputs.release_version }}</version>
-            </dependency>
-            ````
+            <details>
+              <summary>
+              This version of LITIENGINE is available through [Maven Central](https://search.maven.org/artifact/de.gurkenlabs/litiengine):
+              </summary>
+
+              ### Gradle (Groovy)
+              ````groovy
+              implementation 'de.gurkenlabs:litiengine:${{ steps.tag_version.outputs.release_version }}'
+              ````
+              ### Gradle (Kotlin)
+              ````kotlin
+              implementation("de.gurkenlabs:litiengine:${{ steps.tag_version.outputs.release_version }}")
+              ````
+              ### Maven
+              ````xml
+              <dependency>
+                <groupId>de.gurkenlabs</groupId>
+                <artifactId>litiengine</artifactId>
+                <version>${{ steps.tag_version.outputs.release_version }}</version>
+              </dependency>
+              ````
+            </details>
   create_release_assets:
     name: Create release assets
     strategy:
