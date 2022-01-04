@@ -2,19 +2,17 @@ name: Create release
 
 on:
   push:
-    branches:
-      - master
-      - build_actions_test
+    tags:
+      - 'v*'
 
 jobs:
   release:
-    # Only run when a tag is pushed that doesn't contain SNAPSHOT
-    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, 'SNAPSHOT')
+    if: !contains(github.ref, 'SNAPSHOT')
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
-    name: Release ${{ matrix.os }}
+    name: Release
     permissions:
       contents: read
       packages: read
