@@ -33,14 +33,14 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Run jpackage
-        run: ./gradlew jpackage
+        run: ./gradlew -Prelease=true jpackage
       - name: Zip package
-        uses: thedoctor0/zip-release@master
+        uses: TheDoctor0/zip-release@0.6.0
         with:
           type: 'zip'
           filename: utiLITI-${{ runner.os }}.zip
-          path: build/litiengine-utiliti/jpackage/
+          directory: build/litiengine-utiliti/jpackage/
       - name: Upload asset to Release
         uses: softprops/action-gh-release@v1
         with:
-          files: utiLITI-${{ runner.os }}.zip
+          files: build/litiengine-utiliti/jpackage/utiLITI-${{ runner.os }}.zip
