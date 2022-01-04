@@ -21,6 +21,7 @@ jobs:
       - name: Add release message
         uses: softprops/action-gh-release@v1
         with:
+          name: v${{ steps.tag_version.outputs.release_version }}
           body: |
             This version of LITIENGINE is available through [Maven Central](https://search.maven.org/artifact/de.gurkenlabs/litiengine):
             ### Gradle (Groovy)
