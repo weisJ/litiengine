@@ -13,7 +13,7 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
     permissions:
-      contents: read
+      contents: write
       packages: read
     steps:
       - uses: actions/checkout@v2
@@ -35,10 +35,11 @@ jobs:
       - name: Run jpackage
         run: ./gradlew jpackage
       - name: Zip package
-        uses: papeloto/action-zip@v1
+        uses: thedoctor0/zip-release@master
         with:
-          files: build/litiengine-utiliti/jpackage/
-          dest: utiLITI-${{ runner.os }}.zip
+          type: 'zip'
+          filename: utiLITI-${{ runner.os }}.zip
+          path: build/litiengine-utiliti/jpackage/
       - name: Upload asset to Release
         uses: softprops/action-gh-release@v1
         with:
